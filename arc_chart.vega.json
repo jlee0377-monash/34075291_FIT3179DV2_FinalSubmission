@@ -1,0 +1,150 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 300,
+  "title": {
+    "text": "Brisbane Events by Listed Event Type",
+    "subtitle": "Counts are calculated from the supplied Brisbane event registry.",
+    "fontSize": 14,
+    "subtitleFontSize": 11,
+    "anchor": "start"
+  },
+  "data": {
+    "url": "brisbane-markets.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "isValid(datum['Event type(Id:21893)']) && datum['Event type(Id:21893)'] != '' ? datum['Event type(Id:21893)'] : 'Unspecified'",
+      "as": "MarketType"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "Mentions"
+        }
+      ],
+      "groupby": [
+        "MarketType"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "sum",
+          "field": "Mentions",
+          "as": "Total"
+        }
+      ],
+      "frame": [
+        null,
+        null
+      ]
+    },
+    {
+      "calculate": "datum.Mentions / datum.Total",
+      "as": "Fraction"
+    },
+    {
+      "calculate": "format(datum.Fraction, '.0%')",
+      "as": "PercentageLabel"
+    },
+    {
+      "stack": "Mentions",
+      "sort": [
+        {
+          "field": "Mentions",
+          "order": "descending"
+        }
+      ],
+      "as": [
+        "v1",
+        "v2"
+      ]
+    },
+    {
+      "calculate": "(datum.v1 + datum.v2) / 2",
+      "as": "midpoint"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "arc",
+        "innerRadius": 75,
+        "outerRadius": 120,
+        "stroke": "#ffffff",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "theta": {
+          "field": "Mentions",
+          "type": "quantitative",
+          "stack": true,
+          "sort": {
+            "field": "Mentions",
+            "order": "descending"
+          }
+        },
+        "color": {
+          "field": "MarketType",
+          "type": "nominal",
+          "title": "Market Type",
+          "scale": {
+            "scheme": "tableau10"
+          },
+          "sort": {
+            "field": "Mentions",
+            "order": "descending"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "MarketType",
+            "type": "nominal",
+            "title": "Market Type"
+          },
+          {
+            "field": "Mentions",
+            "type": "quantitative",
+            "title": "Mentions"
+          },
+          {
+            "field": "PercentageLabel",
+            "type": "nominal",
+            "title": "Share"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "radius": 98,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "fill": "#ffffff",
+        "align": "center",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "theta": {
+          "field": "midpoint",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "PercentageLabel",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

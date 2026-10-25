@@ -1,0 +1,158 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 280,
+  "title": {
+    "text": "How often do listed markets operate?",
+    "subtitle": "Grouped operating schedule frequency.",
+    "anchor": "start",
+    "fontSize": 15,
+    "subtitleFontSize": 11
+  },
+  "data": {
+    "url": "AFMA_markets.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "filter": "isValid(datum.Market_Days) && datum.Market_Days != ''"
+    },
+    {
+      "calculate": "test(lower(datum.Market_Days), 'saturdays|saturday') && (test(lower(datum.Market_Days), '1st|2nd|3rd|4th|5th|except') ? 'Periodic Saturday' : (test(lower(datum.Market_Days), 'am|pm') ? 'Saturday (Specific Hours)' : 'Weekly Saturday'))",
+      "as": "SatCategory"
+    },
+    {
+      "calculate": "test(lower(datum.Market_Days), 'sundays|sunday') && (test(lower(datum.Market_Days), '1st|2nd|3rd|4th|5th|first') ? 'Periodic Sunday' : (test(lower(datum.Market_Days), 'am|pm') ? 'Sunday (Specific Hours)' : 'Weekly Sunday'))",
+      "as": "SunCategory"
+    },
+    {
+      "calculate": "test(lower(datum.Market_Days), 'saturday|saturdays') ? datum.SatCategory : (test(lower(datum.Market_Days), 'sunday|sundays') ? datum.SunCategory : (test(lower(datum.Market_Days), 'thursday|thursdays|friday|wednesday|wednesdays') ? 'Weekdays' : 'Other Schedules'))",
+      "as": "Cleaned_Schedule"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "Listings"
+        }
+      ],
+      "groupby": [
+        "Cleaned_Schedule"
+      ]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#d8e1e8",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "Listings",
+          "type": "quantitative"
+        },
+        "x2": {
+          "datum": 0
+        },
+        "y": {
+          "field": "Cleaned_Schedule",
+          "type": "nominal",
+          "sort": "-x"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 150,
+        "color": "#287C74",
+        "stroke": "#ffffff",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "Listings",
+          "type": "quantitative",
+          "title": "Number of market listings",
+          "scale": {
+            "zero": true
+          },
+          "axis": {
+            "tickMinStep": 1,
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "grid": true,
+            "gridColor": "#e8edf2"
+          }
+        },
+        "y": {
+          "field": "Cleaned_Schedule",
+          "type": "nominal",
+          "sort": "-x",
+          "title": "Standardised operating schedule",
+          "axis": {
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "ticks": false,
+            "domain": false
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Cleaned_Schedule",
+            "type": "nominal",
+            "title": "Operating schedule"
+          },
+          {
+            "field": "Listings",
+            "type": "quantitative",
+            "title": "Market listings",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 10,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#174c46"
+      },
+      "encoding": {
+        "x": {
+          "field": "Listings",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Cleaned_Schedule",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "text": {
+          "field": "Listings",
+          "type": "quantitative",
+          "format": ","
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Arial",
+    "axis": {
+      "domainColor": "#cbd5e1",
+      "tickColor": "#cbd5e1"
+    }
+  }
+}

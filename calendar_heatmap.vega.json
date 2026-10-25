@@ -1,0 +1,93 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 220,
+  "title": {
+    "text": "When in the week are Brisbane events scheduled?",
+    "subtitle": "Event distribution grouped by day of week and month with direct data labels.",
+    "fontSize": 14,
+    "subtitleFontSize": 11,
+    "anchor": "start"
+  },
+  "data": { "url": "brisbane-markets.csv" },
+  "transform": [
+    { 
+      "calculate": "timeParse(datum['Start Date'], '%m/%d/%Y')", 
+      "as": "ParsedDate" 
+    },
+    { 
+      "filter": "isValid(datum.ParsedDate)" 
+    }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "rect", "stroke": "white", "strokeWidth": 1.5 },
+      "encoding": {
+        "x": {
+          "timeUnit": "month",
+          "field": "ParsedDate",
+          "type": "ordinal",
+          "title": "Month",
+          "axis": {
+            "labelAngle": 0,
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "format": "%b"
+          }
+        },
+        "y": {
+          "timeUnit": "day",
+          "field": "ParsedDate",
+          "type": "ordinal",
+          "title": "Day of week",
+          "sort": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+          "axis": {
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "format": "%a"
+          }
+        },
+        "color": {
+          "aggregate": "count",
+          "type": "quantitative",
+          "title": "Events",
+          "scale": { "scheme": "purples" },
+          "legend": { "titleFontSize": 11, "labelFontSize": 10 }
+        },
+        "tooltip": [
+          { "timeUnit": "day", "field": "ParsedDate", "type": "ordinal", "title": "Day of week", "format": "%A" },
+          { "timeUnit": "month", "field": "ParsedDate", "type": "ordinal", "title": "Month", "format": "%B" },
+          { "aggregate": "count", "type": "quantitative", "title": "Events" }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#1e293b"
+      },
+      "encoding": {
+        "x": {
+          "timeUnit": "month",
+          "field": "ParsedDate",
+          "type": "ordinal"
+        },
+        "y": {
+          "timeUnit": "day",
+          "field": "ParsedDate",
+          "type": "ordinal",
+          "sort": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        },
+        "text": {
+          "aggregate": "count",
+          "type": "quantitative"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": null }
+  }
+}

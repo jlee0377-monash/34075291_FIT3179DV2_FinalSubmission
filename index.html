@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australian Farmers’ Markets | A Comprehensive Data Story</title>
+    <!-- Vega & Vega-Lite Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <!-- Pure.css and Custom Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.0.6/build/pure-min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="page">
+        <!-- Hero Section -->
+        <header class="hero">
+            <p class="eyebrow">A COMPREHENSIVE DATA STORY · AUSTRALIA</p>
+            <h1>Farmers’ Markets: Where They Gather, When They Happen</h1>
+            <p class="dek">An in-depth visual exploration blending national AFMA directory patterns with Brisbane community event dynamics.</p>
+            <p class="note">This data story bridges macro-level geographic trends across Australia with micro-level urban community scheduling rhythms. By integrating data from the Australian Farmers’ Markets Association (AFMA) and Brisbane City Council event registries, we uncover how regional agriculture intersects with local community access.</p>
+        </header>
+
+        <!-- Section 01: Maps & Geographic Distribution -->
+        <section>
+            <div class="section-heading">
+                <span>01</span>
+                <div>
+                    <h2>Geographic Concentration & Spatial Mapping</h2>
+                    <p>Understanding where fresh produce markets aggregate across Australian states and territories.</p>
+                </div>
+            </div>
+
+            <!-- Narrative Paragraph for Storytelling (Addressing Critique 1) -->
+            <div class="narrative-block">
+                <p>The supplied AFMA directory contains an uneven number of listed farmers’ markets across Australian states. This section compares total listings with schedule-description patterns; these directory counts should not be interpreted as market density or a complete census of every market.</p>
+                <p><strong>Methodological & Spatial Clarity Note:</strong> Spatial position is a primary visual channel under Munzner’s framework. Because national directory data is aggregated at the state level rather than providing precise latitudinal/longitudinal street addresses for every farm gate, proportional visual markers are positioned at state capital reference anchors (centroids). The choropleth represents total listings. Other maps use separate metrics derived from Market_Days text, so their measures should not be interpreted as actual market coordinates or exclusive weekend operation.</p>
+            </div>
+
+            <div class="grid">
+                <article class="chart wide">
+                    <div id="map_choropleth"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Darker blue shades represent higher state-level counts in the supplied directory. State-capital reference points are approximate anchors for aggregated state data, not individual market locations.</p>
+                </article>
+                <article class="chart">
+                    <div id="map_dot"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Circle size represents the number of distinct Market_Days descriptions recorded for each state. This is a text-description variety measure, not a count of unique operating frequencies.</p>
+                </article>
+                <article class="chart">
+                    <div id="map_symbol"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Circle size represents records whose Market_Days text mentions Saturday or Sunday. These are text mentions, not proof that a market operates only on weekends.</p>
+                </article>
+                <article class="chart wide">
+                    <div id="map_layered"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> The choropleth shows total listed markets; circle size shows the share of listings whose Market_Days text mentions Saturday or Sunday. Reference points are approximate state-level anchors.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Section 02: National Directory & Operational Frequencies -->
+        <section>
+            <div class="section-heading">
+                <span>02</span>
+                <div>
+                    <h2>National Directory & Operating Schedules</h2>
+                    <p>Evaluating state volume rankings and standardizing weekly operational frequencies.</p>
+                </div>
+            </div>
+
+            <!-- Narrative Paragraph for Storytelling (Addressing Critique 2) -->
+            <div class="narrative-block">
+                <p>While regional market availability varies geographically, the temporal accessibility of these markets determines consumer participation. Farmers' markets typically operate on recurring community schedules ranging from weekly gatherings to monthly specialty pop-ups.</p>
+                <p>To reduce cognitive load caused by fragmented raw text descriptions (e.g., distinguishing between "Saturdays", "Every Saturday", and "2nd Saturday"), operational schedules are standardized into high-level functional buckets. This reveals that weekend mornings—particularly Saturdays—form the overwhelming backbone of regional market activity across Australia.</p>
+            </div>
+
+            <div class="grid">
+                <article class="chart">
+                    <div id="operator_bar"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Horizontal bar chart detailing state-level market totals with direct numeric value annotations.</p>
+                </article>
+                <article class="chart">
+                    <div id="market_day_bar"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Standardized dot plot grouping operating schedules into clean, readable functional categories.</p>
+                </article>
+                <article class="chart">
+                    <div id="arc_chart"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Proportional donut chart summarizing operational mentions by market type across Brisbane venues.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Section 03: Brisbane Event Dynamics & Temporal Patterns -->
+        <section>
+            <div class="section-heading">
+                <span>03</span>
+                <div>
+                    <h2>Brisbane Event Dynamics & Temporal Analysis</h2>
+                    <p>Zooming in from macro-level national trends to micro-level urban event scheduling.</p>
+                </div>
+            </div>
+
+            <!-- Narrative Transition Block in 2 Columns -->
+            <div class="narrative-block highlight">
+                <h3>Narrative Transition: Why Focus on Brisbane?</h3>
+                <div class="narrative-grid">
+                    <p>National directory statistics offer an essential macro-level overview of state capacity, but they lack granular temporal stamps, start times, and seasonal venue records. To explore how farmers' markets function inside a thriving metropolitan ecosystem, we transition from national broad aggregates to a focused urban case study: <strong>Brisbane City Council</strong>.</p>
+                    <p>Brisbane provides a rich, high-frequency municipal dataset detailing market venues, event types, monthly trends, and specific operating hours. This shift allows us to answer Munzner's <em>"Why"</em> questions: exploring not just <em>where</em> markets are registered nationally, but <em>how and when</em> urban communities engage with local food markets over time.</p>
+                </div>
+            </div>
+            
+
+            <div class="grid">
+                <article class="chart">
+                    <div id="bar_chart"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Ranks Brisbane venues by total community market event listings.</p>
+                </article>
+                <article class="chart">
+                    <div id="heatmap"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Matrix heatmap showing event record density across specific venue and event-type pairs.</p>
+                </article>
+                <article class="chart">
+                    <div id="line_chart"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Monthly event-record totals tracking temporal trends across the year.</p>
+                </article>
+                <article class="chart">
+                    <div id="area_chart"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Stacked area chart illustrating how event-type composition evolves across seasons.</p>
+                </article>
+                <article class="chart">
+                    <div id="scatter_plot"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Bubble chart mapping event categories and venues where circle scale denotes record volume.</p>
+                </article>
+                <article class="chart">
+                    <div id="calendar_heatmap"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Calendar grid highlighting event concentration across days of the week and months.</p>
+                </article>
+                <article class="chart wide">
+                    <div id="start_time_dot"></div>
+                    <p class="chart-caption"><strong>How to read this:</strong> Comparative bar distribution of scheduled event start times (e.g., 6:00 AM vs. 8:00 AM).</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Synthesis & Key Takeaways -->
+        <section class="takeaway">
+            <h2>Synthesis & Key Takeaways</h2>
+            <p>Combining macro-level national directory data with micro-level municipal event records reveals that Australian farmers' markets are strongly anchored in southeastern states and overwhelmingly reliant on weekend morning schedules. Urban centers like Brisbane sustain consistent year-round event rhythms, serving as critical community hubs.</p>
+            <p class="note">Data Sources: AFMA Market Directory (AFMA_markets.csv) and Brisbane City Council Event Listings (brisbane-markets.csv).</p>
+        </section>
+
+        <!-- Footer / Metadata -->
+        <footer>
+            <p>Created by Lee Jie Yi (Student ID: 34075291) · FIT3179 Data Visualisation 2 · Monash University · October 2026</p>
+            <p>Generative AI tools (Gemini) were utilized for code drafting and syntax verification; final design integration, data storytelling, and authorial review were independently completed.</p>
+        </footer>
+    </main>
+    <script src="vega_lite_visualisation.js"></script>
+</body>
+</html>

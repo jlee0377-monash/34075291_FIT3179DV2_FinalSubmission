@@ -1,0 +1,119 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 240,
+  "title": {
+    "text": "How are listed markets distributed across states?",
+    "subtitle": "State-level counts with direct data labels.",
+    "fontSize": 14,
+    "subtitleFontSize": 11
+  },
+  "data": {
+    "url": "AFMA_markets.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum.Address_Details && test(/\\bNSW\\s+\\d{4}\\b/, datum.Address_Details) ? 'NSW' : datum.Address_Details && test(/\\bVIC\\s+\\d{4}\\b/, datum.Address_Details) ? 'VIC' : datum.Address_Details && test(/\\bQLD\\s+\\d{4}\\b/, datum.Address_Details) ? 'QLD' : datum.Address_Details && test(/\\bSA\\s+\\d{4}\\b/, datum.Address_Details) ? 'SA' : datum.Address_Details && test(/\\bWA\\s+\\d{4}\\b/, datum.Address_Details) ? 'WA' : datum.Address_Details && test(/\\bTAS\\s+\\d{4}\\b/, datum.Address_Details) ? 'TAS' : datum.Address_Details && test(/\\bACT\\s+\\d{4}\\b/, datum.Address_Details) ? 'ACT' : datum.Address_Details && test(/\\bNT\\s+\\d{4}\\b/, datum.Address_Details) ? 'NT' : 'Other'",
+      "as": "StateCode"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "MarketCount"
+        }
+      ],
+      "groupby": [
+        "StateCode"
+      ]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#9B8AD4",
+        "cornerRadiusEnd": 3
+      },
+      "encoding": {
+        "y": {
+          "field": "StateCode",
+          "type": "nominal",
+          "sort": "-x",
+          "title": "State / territory",
+          "axis": {
+            "labelFontSize": 11,
+            "titleFontSize": 12
+          }
+        },
+        "x": {
+          "field": "MarketCount",
+          "type": "quantitative",
+          "title": "Listed markets",
+          "axis": {
+            "labelFontSize": 11,
+            "titleFontSize": 12
+          }
+        },
+        "tooltip": [
+          {
+            "field": "StateCode",
+            "type": "nominal",
+            "title": "State / territory"
+          },
+          {
+            "field": "MarketCount",
+            "type": "quantitative",
+            "title": "Listed markets"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 4,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#9B8AD4"
+      },
+      "encoding": {
+        "y": {
+          "field": "StateCode",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "x": {
+          "field": "MarketCount",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "MarketCount",
+          "type": "quantitative"
+        }
+      }
+    }
+  ],
+  "config": {
+    "axis": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8",
+      "gridColor": "#E4EAF3"
+    },
+    "legend": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8"
+    },
+    "title": {
+      "color": "#6C5AA8",
+      "subtitleColor": "#596579",
+      "font": "Arial",
+      "subtitleFont": "Arial"
+    }
+  }
+}

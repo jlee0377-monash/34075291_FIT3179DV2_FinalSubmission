@@ -1,0 +1,112 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 280,
+  "title": {
+    "text": "What start times are used most often?",
+    "subtitle": "Event counts distributed by scheduled start time.",
+    "fontSize": 14,
+    "subtitleFontSize": 11
+  },
+  "data": {
+    "url": "brisbane-markets.csv"
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "Events"
+        }
+      ],
+      "groupby": [
+        "Start Time"
+      ]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#9B8AD4",
+        "cornerRadiusEnd": 4,
+        "width": 40
+      },
+      "encoding": {
+        "x": {
+          "field": "Start Time",
+          "type": "nominal",
+          "title": "Start time",
+          "axis": {
+            "labelAngle": 0,
+            "labelFontSize": 11,
+            "titleFontSize": 12
+          }
+        },
+        "y": {
+          "field": "Events",
+          "type": "quantitative",
+          "title": "Event records",
+          "axis": {
+            "labelFontSize": 11,
+            "titleFontSize": 12
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Start Time",
+            "type": "nominal",
+            "title": "Start Time"
+          },
+          {
+            "field": "Events",
+            "type": "quantitative",
+            "title": "Event Count"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -6,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "color": "#9B8AD4"
+      },
+      "encoding": {
+        "x": {
+          "field": "Start Time",
+          "type": "nominal"
+        },
+        "y": {
+          "field": "Events",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "Events",
+          "type": "quantitative"
+        }
+      }
+    }
+  ],
+  "config": {
+    "axis": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8",
+      "gridColor": "#E4EAF3"
+    },
+    "legend": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8"
+    },
+    "title": {
+      "color": "#6C5AA8",
+      "subtitleColor": "#596579",
+      "font": "Arial",
+      "subtitleFont": "Arial"
+    }
+  }
+}

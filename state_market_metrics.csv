@@ -1,0 +1,9 @@
+State,Code,TotalMarkets,WeekendMentionCount,WeekendMentionShare,DistinctScheduleDescriptions,longitude,latitude
+New South Wales,NSW,15,11,0.7333,10,147.0,-32.0
+Victoria,VIC,13,13,1.0,10,145.0,-37.0
+Queensland,QLD,2,2,1.0,2,144.0,-22.0
+South Australia,SA,3,3,1.0,3,133.0,-30.0
+Western Australia,WA,3,3,1.0,3,122.0,-25.0
+Tasmania,TAS,2,2,1.0,2,147.0,-42.0
+Australian Capital Territory,ACT,1,1,1.0,1,149.13,-35.28
+Northern Territory,NT,0,0,0,0,133.0,-19.0

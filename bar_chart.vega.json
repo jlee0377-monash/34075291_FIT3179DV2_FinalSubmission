@@ -1,0 +1,111 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 360,
+  "title": {
+    "text": "Which Brisbane venues host the most listed events?",
+    "subtitle": "Event record counts with direct value labels.",
+    "fontSize": 14,
+    "subtitleFontSize": 11
+  },
+  "data": {
+    "url": "brisbane-markets.csv"
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "Events"
+        }
+      ],
+      "groupby": [
+        "Venue(Id:22537)"
+      ]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadiusEnd": 3,
+        "color": "#9B8AD4"
+      },
+      "encoding": {
+        "y": {
+          "field": "Venue(Id:22537)",
+          "type": "nominal",
+          "sort": "-x",
+          "title": null,
+          "axis": {
+            "labelLimit": 210,
+            "labelFontSize": 11
+          }
+        },
+        "x": {
+          "field": "Events",
+          "type": "quantitative",
+          "title": "Event records",
+          "axis": {
+            "labelFontSize": 11,
+            "titleFontSize": 12
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Venue(Id:22537)",
+            "type": "nominal",
+            "title": "Venue"
+          },
+          {
+            "field": "Events",
+            "type": "quantitative"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 4,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#9B8AD4"
+      },
+      "encoding": {
+        "y": {
+          "field": "Venue(Id:22537)",
+          "type": "nominal",
+          "sort": "-x"
+        },
+        "x": {
+          "field": "Events",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "Events",
+          "type": "quantitative"
+        }
+      }
+    }
+  ],
+  "config": {
+    "axis": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8",
+      "gridColor": "#E4EAF3"
+    },
+    "legend": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8"
+    },
+    "title": {
+      "color": "#6C5AA8",
+      "subtitleColor": "#596579",
+      "font": "Arial",
+      "subtitleFont": "Arial"
+    }
+  }
+}

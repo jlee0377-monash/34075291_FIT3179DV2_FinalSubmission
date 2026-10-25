@@ -1,0 +1,147 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 260,
+  "title": {
+    "text": "How does event type vary by venue?",
+    "subtitle": "Record density across venue and event-type combinations."
+  },
+  "data": {
+    "url": "brisbane-markets.csv"
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "Events"
+        }
+      ],
+      "groupby": [
+        "Venue(Id:22537)",
+        "Event type(Id:21893)"
+      ]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "Event type(Id:21893)",
+          "type": "nominal",
+          "title": "Event type",
+          "axis": {
+            "labelAngle": -25,
+            "labelLimit": 150
+          }
+        },
+        "y": {
+          "field": "Venue(Id:22537)",
+          "type": "nominal",
+          "title": "Venue",
+          "axis": {
+            "labelLimit": 190
+          }
+        },
+        "color": {
+          "field": "Events",
+          "type": "quantitative",
+          "title": "Event records",
+          "scale": {
+            "range": [
+              "#D7E9FC",
+              "#B8A9E5",
+              "#9B8AD4",
+              "#7F6CC0"
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "Venue(Id:22537)",
+            "type": "nominal",
+            "title": "Venue"
+          },
+          {
+            "field": "Event type(Id:21893)",
+            "type": "nominal",
+            "title": "Event type"
+          },
+          {
+            "field": "Events",
+            "type": "quantitative"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#9B8AD4"
+      },
+      "encoding": {
+        "x": {
+          "field": "Event type(Id:21893)",
+          "type": "nominal",
+          "title": "Event type",
+          "axis": {
+            "labelAngle": -25,
+            "labelLimit": 150
+          }
+        },
+        "y": {
+          "field": "Venue(Id:22537)",
+          "type": "nominal",
+          "title": "Venue",
+          "axis": {
+            "labelLimit": 190
+          }
+        },
+        "text": {
+          "field": "Events",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "Venue(Id:22537)",
+            "type": "nominal",
+            "title": "Venue"
+          },
+          {
+            "field": "Event type(Id:21893)",
+            "type": "nominal",
+            "title": "Event type"
+          },
+          {
+            "field": "Events",
+            "type": "quantitative"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "axis": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8",
+      "gridColor": "#E4EAF3"
+    },
+    "legend": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8"
+    },
+    "title": {
+      "color": "#6C5AA8",
+      "subtitleColor": "#596579",
+      "font": "Arial",
+      "subtitleFont": "Arial"
+    }
+  }
+}

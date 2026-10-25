@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 460,
+  "height": 360,
+  "title": {
+    "text": "2. Proportional Symbol Map: Market Scale",
+    "fontSize": 14,
+    "font": "Arial",
+    "anchor": "middle"
+  },
+  "projection": {"type": "mercator", "center": [133, -27], "scale": 500},
+  "layer": [
+    {
+      "data": {
+        "url": "aus_state.topojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "mark": {"type": "geoshape", "fill": "#e2e8f0", "stroke": "#64748b", "strokeWidth": 1.2}
+    },
+    {
+      "data": {
+        "values": [
+          {"State": "NSW", "longitude": 147.0, "latitude": -32.0, "Count": 15},
+          {"State": "VIC", "longitude": 145.0, "latitude": -37.0, "Count": 13},
+          {"State": "SA", "longitude": 133.0, "latitude": -30.0, "Count": 3},
+          {"State": "WA", "longitude": 122.0, "latitude": -25.0, "Count": 3},
+          {"State": "QLD", "longitude": 144.0, "latitude": -22.0, "Count": 2},
+          {"State": "TAS", "longitude": 147.0, "latitude": -42.0, "Count": 2},
+          {"State": "ACT", "longitude": 149.13, "latitude": -35.28, "Count": 1}
+        ]
+      },
+      "mark": {"type": "circle", "opacity": 0.85, "color": "#ea580c", "stroke": "#9a3412", "strokeWidth": 1.5},
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "size": {
+          "field": "Count",
+          "type": "quantitative",
+          "title": "Markets",
+          "scale": {"range": [150, 1000]}
+        },
+        "tooltip": [
+          {"field": "State", "type": "nominal", "title": "State"},
+          {"field": "Count", "type": "quantitative", "title": "Market Count"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"Label": "NSW (15)", "longitude": 147.0, "latitude": -32.0},
+          {"Label": "VIC (13)", "longitude": 145.0, "latitude": -37.0},
+          {"Label": "QLD (2)", "longitude": 144.0, "latitude": -22.0},
+          {"Label": "SA (3)", "longitude": 133.0, "latitude": -30.0},
+          {"Label": "WA (3)", "longitude": 122.0, "latitude": -25.0},
+          {"Label": "TAS (2)", "longitude": 147.0, "latitude": -42.0},
+          {"Label": "ACT (1)", "longitude": 149.13, "latitude": -35.28}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "fill": "#000000",
+        "dy": -16
+      },
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "text": {"field": "Label", "type": "nominal"}
+      }
+    }
+  ]
+}

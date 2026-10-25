@@ -1,0 +1,110 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 250,
+  "title": {
+    "text": "How does the mix of event types change over time?",
+    "subtitle": "Stacked daily records grouped by event type."
+  },
+  "data": {
+    "url": "brisbane-markets.csv"
+  },
+  "transform": [
+    {
+      "calculate": "timeParse(datum['Start Date'], '%m/%d/%Y')",
+      "as": "ParsedDate"
+    },
+    {
+      "filter": "isValid(datum.ParsedDate)"
+    },
+    {
+      "timeUnit": "yearmonth",
+      "field": "ParsedDate",
+      "as": "Month"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "Events"
+        }
+      ],
+      "groupby": [
+        "Month",
+        "Event type(Id:21893)"
+      ]
+    }
+  ],
+  "mark": {
+    "type": "area",
+    "opacity": 0.75
+  },
+  "encoding": {
+    "x": {
+      "field": "Month",
+      "type": "temporal",
+      "title": "Month",
+      "axis": {
+        "format": "%b %Y",
+        "labelAngle": -35
+      }
+    },
+    "y": {
+      "field": "Events",
+      "type": "quantitative",
+      "stack": "zero",
+      "title": "Event records"
+    },
+    "color": {
+      "field": "Event type(Id:21893)",
+      "type": "nominal",
+      "title": "Event type",
+      "scale": {
+        "range": [
+          "#9B8AD4",
+          "#8DBB9B",
+          "#E8C477",
+          "#B88B72",
+          "#E7A9C3",
+          "#9B8AD4",
+          "#8DBB9B"
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "Month",
+        "type": "temporal",
+        "title": "Month",
+        "format": "%B %Y"
+      },
+      {
+        "field": "Event type(Id:21893)",
+        "type": "nominal",
+        "title": "Event type"
+      },
+      {
+        "field": "Events",
+        "type": "quantitative",
+        "title": "Event records"
+      }
+    ]
+  },
+  "config": {
+    "axis": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8",
+      "gridColor": "#E4EAF3"
+    },
+    "legend": {
+      "labelColor": "#596579",
+      "titleColor": "#6C5AA8"
+    },
+    "title": {
+      "color": "#6C5AA8",
+      "subtitleColor": "#596579",
+      "font": "Arial",
+      "subtitleFont": "Arial"
+    }
+  }
+}
