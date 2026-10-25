@@ -43,7 +43,8 @@
           "field": "TotalMarkets",
           "type": "quantitative",
           "title": "Total Markets",
-          "scale": {"scheme": "blues"}
+          "scale": {"scheme": "blues"},
+          "legend": {"offset": 25}
         },
         "tooltip": [
           {"field": "StateName", "type": "nominal", "title": "State"},
