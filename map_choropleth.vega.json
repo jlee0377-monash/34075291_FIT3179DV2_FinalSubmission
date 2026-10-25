@@ -2,7 +2,6 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 460,
   "height": 360,
-  "autosize": {"type": "fit-x", "contains": "padding"},
   "title": {
     "text": "1. Choropleth Map: Total Markets by State",
     "fontSize": 14,
@@ -44,8 +43,7 @@
           "field": "TotalMarkets",
           "type": "quantitative",
           "title": "Total Markets",
-          "scale": {"scheme": "blues"},
-          "legend": {"orient": "right", "offset": 100}
+          "scale": {"scheme": "blues"}
         },
         "tooltip": [
           {"field": "StateName", "type": "nominal", "title": "State"},
